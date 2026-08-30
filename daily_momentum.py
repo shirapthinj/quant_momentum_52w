@@ -25,9 +25,12 @@ def send_telegram(msg):
         url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
         payload = {"chat_id": TELEGRAM_CHAT_ID, "text": msg, "parse_mode": "Markdown"}
         try:
-            requests.post(url, json=payload, timeout=10)
+            res = requests.post(url, json=payload, timeout=10)
+            print(f"Telegram API Response: {res.status_code}")
         except Exception as e:
             print(f"Telegram Dispatch Error: {e}")
+    else:
+        print("⚠️ TELEGRAM WARNING: TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID missing in secrets!")
 
 def fetch_universe():
     url = "https://niftyindices.com/IndexConstituent/ind_nifty500list.csv"
@@ -37,8 +40,8 @@ def fetch_universe():
         if res.status_code == 200:
             df = pd.read_csv(io.StringIO(res.text))
             return [f"{sym.strip()}.NS" for sym in df['Symbol'].dropna()]
-    except Exception:
-        pass
+    except Exception as e:
+        print(f"Universe fetch warning: {e}")
     return ['RELIANCE.NS', 'TCS.NS', 'HDFCBANK.NS', 'BHARTIARTL.NS', 'ICICIBANK.NS']
 
 def run_live_scan():
@@ -54,11 +57,14 @@ def run_live_scan():
     cash = state["cash"]
     holdings = state["holdings"]
     
+    # FORCE BUY SCAN IF PORTFOLIO IS CURRENTLY EMPTY (DAY 1 INITIALIZATION)
+    is_rebalance_day = is_monday or (len(holdings) == 0)
+
     tickers = fetch_universe()
     bench_symbol = '^CRSLDX'
     all_symbols = list(set(tickers + [bench_symbol]))
     
-    print("Downloading historical data via yfinance...")
+    print(f"Downloading historical market data for {len(all_symbols)} tickers...")
     raw = yf.download(all_symbols, period="2y", progress=False)
     
     if isinstance(raw.columns, pd.MultiIndex):
@@ -120,10 +126,14 @@ def run_live_scan():
     for t in sold_tickers:
         del holdings[t]
 
-    # 2. WEEKLY REBALANCE & RANK DECAY (MONDAYS ONLY)
-    if is_monday:
-        telegram_msgs.append("🔄 *MONDAY WEEKLY REBALANCE SCAN*")
+    # 2. REBALANCE & CANDIDATE EVALUATION
+    if is_rebalance_day:
+        reason_str = "DAY 1 PORTFOLIO INITIALIZATION SCAN" if len(holdings) == 0 else "MONDAY WEEKLY REBALANCE SCAN"
+        telegram_msgs.append(f"🔄 *{reason_str}*")
+        
         n500_3m = ret3m_df[bench_symbol].iloc[-1] if bench_symbol in ret3m_df.columns else 0.0
+        if pd.isna(n500_3m):
+            n500_3m = 0.0
         
         candidates = []
         for ticker in tickers:
@@ -136,10 +146,11 @@ def run_live_scan():
             atr_pct = atr_pct_df[ticker].iloc[-1]
             to = turnover_df[ticker].iloc[-1]
             
-            if pd.isna(p) or pd.isna(sma200) or pd.isna(h52w) or h52w <= 0:
+            if pd.isna(p) or pd.isna(sma200) or pd.isna(h52w) or pd.isna(r3m) or pd.isna(r6m) or pd.isna(r12m) or pd.isna(atr_pct) or pd.isna(to) or h52w <= 0:
                 continue
                 
-            if p >= MIN_STOCK_PRICE and to >= MIN_TURNOVER and p > sma200 and (r3m - n500_3m) > 0:
+            alpha_3m = r3m - n500_3m
+            if p >= MIN_STOCK_PRICE and to >= MIN_TURNOVER and p > sma200 and alpha_3m > 0:
                 smooth_mom = (0.6 * r6m) + (0.4 * r12m)
                 score = (smooth_mom / max(atr_pct, 0.5)) * ((p / h52w) ** 4)
                 candidates.append({'ticker': ticker, 'price': p, 'score': score})
@@ -174,7 +185,7 @@ def run_live_scan():
             for t in rank_sells:
                 del holdings[t]
 
-            # Buy New Candidates to Fill Open Slots
+            # Buy New Candidates to Fill Slots
             portfolio_val = cash + sum(pos['shares'] * close_df[t].iloc[-1] for t, pos in holdings.items() if t in close_df.columns)
             open_slots = TARGET_POSITIONS - len(holdings)
             
