@@ -29,8 +29,6 @@ def send_telegram(msg):
             print(f"Telegram API Response: {res.status_code}")
         except Exception as e:
             print(f"Telegram Dispatch Error: {e}")
-    else:
-        print("⚠️ TELEGRAM WARNING: TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID missing in secrets!")
 
 def fetch_universe():
     url = "https://niftyindices.com/IndexConstituent/ind_nifty500list.csv"
@@ -57,12 +55,12 @@ def run_live_scan():
     cash = state["cash"]
     holdings = state["holdings"]
     
-    # FORCE BUY SCAN IF PORTFOLIO IS CURRENTLY EMPTY (DAY 1 INITIALIZATION)
     is_rebalance_day = is_monday or (len(holdings) == 0)
 
     tickers = fetch_universe()
-    bench_symbol = '^CRSLDX'
-    all_symbols = list(set(tickers + [bench_symbol]))
+    n50_sym = '^NSEI'
+    n500_sym = '^CRSLDX'
+    all_symbols = list(set(tickers + [n50_sym, n500_sym]))
     
     print(f"Downloading historical market data for {len(all_symbols)} tickers...")
     raw = yf.download(all_symbols, period="2y", progress=False)
@@ -131,7 +129,7 @@ def run_live_scan():
         reason_str = "DAY 1 PORTFOLIO INITIALIZATION SCAN" if len(holdings) == 0 else "MONDAY WEEKLY REBALANCE SCAN"
         telegram_msgs.append(f"🔄 *{reason_str}*")
         
-        n500_3m = ret3m_df[bench_symbol].iloc[-1] if bench_symbol in ret3m_df.columns else 0.0
+        n500_3m = ret3m_df[n500_sym].iloc[-1] if n500_sym in ret3m_df.columns else 0.0
         if pd.isna(n500_3m):
             n500_3m = 0.0
         
@@ -208,18 +206,28 @@ def run_live_scan():
                         cash -= (shares * buy_price)
                         telegram_msgs.append(f"🟢 *BUY ORDER*: {stk.replace('.NS', '')}\n• Qty: {shares} shares @ ₹{buy_price:.2f}\n")
 
-    # UPDATE JSON & EXCEL LOGS
+    # UPDATE JSON & EXCEL LOGS (WITH BENCHMARK PRICES)
     total_val = cash + sum(pos['shares'] * close_df[t].iloc[-1] for t, pos in holdings.items() if t in close_df.columns)
     state['cash'] = cash
     state['holdings'] = holdings
     
+    n50_p = close_df[n50_sym].iloc[-1] if n50_sym in close_df.columns else np.nan
+    n500_p = close_df[n500_sym].iloc[-1] if n500_sym in close_df.columns else np.nan
+
     with open("portfolio.json", "w") as f:
         json.dump(state, f, indent=2)
 
     holdings_rows = [{'Ticker': k.replace('.NS',''), 'Shares': v['shares'], 'Entry Price': round(v['entry_price'],2), 'Peak Price': round(v['peak_price'],2), 'Entry Date': v['entry_date']} for k,v in holdings.items()]
     pd.DataFrame(holdings_rows).to_csv("current_holdings.csv", index=False)
 
-    perf_df = pd.DataFrame([{'Date': today_str, 'Portfolio_Value': round(total_val, 2), 'Cash': round(cash, 2), 'Positions': len(holdings)}])
+    perf_df = pd.DataFrame([{
+        'Date': today_str, 
+        'Portfolio_Value': round(total_val, 2), 
+        'Cash': round(cash, 2), 
+        'Positions': len(holdings),
+        'Nifty50_Price': round(n50_p, 2) if not pd.isna(n50_p) else np.nan,
+        'Nifty500_Price': round(n500_p, 2) if not pd.isna(n500_p) else np.nan
+    }])
     perf_df.to_csv("performance_history.csv", mode='a', header=not os.path.exists("performance_history.csv"), index=False)
 
     if trade_logs:
