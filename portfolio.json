@@ -1,5 +1,66 @@
 {
-  "cash": 500000.0,
+  "cash": 15412.093182067896,
   "initial_capital": 500000.0,
-  "holdings": {}
+  "holdings": {
+    "HFCL.NS": {
+      "shares": 198,
+      "entry_price": 251.8472062225342,
+      "peak_price": 251.47000122070312,
+      "entry_date": "2026-08-30"
+    },
+    "ATHERENERG.NS": {
+      "shares": 30,
+      "entry_price": 1618.7244989013673,
+      "peak_price": 1616.300048828125,
+      "entry_date": "2026-08-30"
+    },
+    "LAURUSLABS.NS": {
+      "shares": 25,
+      "entry_price": 1941.40775,
+      "peak_price": 1938.5,
+      "entry_date": "2026-08-30"
+    },
+    "WELCORP.NS": {
+      "shares": 21,
+      "entry_price": 2377.3607489013675,
+      "peak_price": 2373.800048828125,
+      "entry_date": "2026-08-30"
+    },
+    "RADICO.NS": {
+      "shares": 10,
+      "entry_price": 4612.909000000001,
+      "peak_price": 4606.0,
+      "entry_date": "2026-08-30"
+    },
+    "OFSS.NS": {
+      "shares": 4,
+      "entry_price": 12208.285,
+      "peak_price": 12190.0,
+      "entry_date": "2026-08-30"
+    },
+    "BHEL.NS": {
+      "shares": 115,
+      "entry_price": 434.6009372253418,
+      "peak_price": 433.95001220703125,
+      "entry_date": "2026-08-30"
+    },
+    "RRKABEL.NS": {
+      "shares": 17,
+      "entry_price": 2834.3452478027343,
+      "peak_price": 2830.10009765625,
+      "entry_date": "2026-08-30"
+    },
+    "NEULANDLAB.NS": {
+      "shares": 2,
+      "entry_price": 23239.807500000003,
+      "peak_price": 23205.0,
+      "entry_date": "2026-08-30"
+    },
+    "ANANDRATHI.NS": {
+      "shares": 22,
+      "entry_price": 2186.1742521972656,
+      "peak_price": 2182.89990234375,
+      "entry_date": "2026-08-30"
+    }
+  }
 }
