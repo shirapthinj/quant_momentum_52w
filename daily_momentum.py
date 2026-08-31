@@ -19,14 +19,19 @@ SLIPPAGE_SELL = 0.9985         # 0.15% Sell Friction
 
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
+STREAMLIT_URL = "https://quantmomentum52w-cabwqvmv4e7tyi9x7upauk.streamlit.app"  # Your Streamlit App URL
 
 def send_telegram(msg):
     if TELEGRAM_TOKEN and TELEGRAM_CHAT_ID:
         url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
-        payload = {"chat_id": TELEGRAM_CHAT_ID, "text": msg, "parse_mode": "Markdown"}
+        payload = {
+            "chat_id": TELEGRAM_CHAT_ID, 
+            "text": msg, 
+            "parse_mode": "Markdown",
+            "disable_web_page_preview": True
+        }
         try:
-            res = requests.post(url, json=payload, timeout=10)
-            print(f"Telegram API Response: {res.status_code}")
+            requests.post(url, json=payload, timeout=10)
         except Exception as e:
             print(f"Telegram Dispatch Error: {e}")
 
@@ -54,6 +59,7 @@ def run_live_scan():
 
     cash = state["cash"]
     holdings = state["holdings"]
+    initial_cap = state.get("initial_capital", 500000.0)
     
     is_rebalance_day = is_monday or (len(holdings) == 0)
 
@@ -89,8 +95,9 @@ def run_live_scan():
     atr14_df = tr.rolling(14).mean()
     atr_pct_df = (atr14_df / close_df) * 100
 
-    telegram_msgs = [f"🚨 *QUANT MOMENTUM SYSTEM UPDATE ({today_str})*\n"]
     trade_logs = []
+    action_items = []
+    stop_risk_list = []
 
     # 1. DAILY EXIT EVALUATION (3.5x ATR Trailing Stop)
     sold_tickers = []
@@ -103,13 +110,17 @@ def run_live_scan():
         pos['peak_price'] = max(pos['peak_price'], cur_p)
         stop_price = pos['peak_price'] - (ATR_MULTIPLIER * s_atr) if not pd.isna(s_atr) else pos['peak_price'] * 0.85
         
+        # Calculate distance to stop loss (%)
+        dist_to_stop = ((cur_p - stop_price) / cur_p) * 100
+        stop_risk_list.append({'ticker': ticker.replace('.NS',''), 'dist': dist_to_stop, 'stop': stop_price, 'price': cur_p})
+
         if cur_p < stop_price:
             exit_price = cur_p * SLIPPAGE_SELL
             proceeds = pos['shares'] * exit_price
             cash += proceeds
             ret_pct = ((exit_price - pos['entry_price']) / pos['entry_price']) * 100
             
-            telegram_msgs.append(f"🔴 *SELL (3.5x ATR Stop)*: {ticker.replace('.NS', '')}\n• Exit Price: ₹{exit_price:.2f}\n• Return: {ret_pct:+.2f}%\n")
+            action_items.append(f"🔴 *SELL (3.5x ATR Stop)*: {ticker.replace('.NS', '')}\n   • Exit Price: ₹{exit_price:.2f} ({ret_pct:+.2f}%)")
             trade_logs.append({
                 'Ticker': ticker.replace('.NS', ''),
                 'Entry Date': pos['entry_date'],
@@ -126,9 +137,6 @@ def run_live_scan():
 
     # 2. REBALANCE & CANDIDATE EVALUATION
     if is_rebalance_day:
-        reason_str = "DAY 1 PORTFOLIO INITIALIZATION SCAN" if len(holdings) == 0 else "MONDAY WEEKLY REBALANCE SCAN"
-        telegram_msgs.append(f"🔄 *{reason_str}*")
-        
         n500_3m = ret3m_df[n500_sym].iloc[-1] if n500_sym in ret3m_df.columns else 0.0
         if pd.isna(n500_3m):
             n500_3m = 0.0
@@ -168,7 +176,7 @@ def run_live_scan():
                     cash += (pos['shares'] * exit_price)
                     ret_pct = ((exit_price - pos['entry_price']) / pos['entry_price']) * 100
                     
-                    telegram_msgs.append(f"🟠 *SELL (Rank Decay #{r})*: {ticker.replace('.NS', '')}\n• Exit: ₹{exit_price:.2f} ({ret_pct:+.2f}%)\n")
+                    action_items.append(f"🟠 *SELL (Rank Decay #{r})*: {ticker.replace('.NS', '')}\n   • Exit Price: ₹{exit_price:.2f} ({ret_pct:+.2f}%)")
                     trade_logs.append({
                         'Ticker': ticker.replace('.NS', ''),
                         'Entry Date': pos['entry_date'],
@@ -204,15 +212,24 @@ def run_live_scan():
                             'entry_date': today_str
                         }
                         cash -= (shares * buy_price)
-                        telegram_msgs.append(f"🟢 *BUY ORDER*: {stk.replace('.NS', '')}\n• Qty: {shares} shares @ ₹{buy_price:.2f}\n")
+                        action_items.append(f"🟢 *BUY ORDER*: {stk.replace('.NS', '')}\n   • Buy: {shares} shares @ ₹{buy_price:.2f}")
 
-    # UPDATE JSON & EXCEL LOGS (WITH BENCHMARK PRICES)
+    # CALCULATE METRICS & BENCHMARKS
     total_val = cash + sum(pos['shares'] * close_df[t].iloc[-1] for t, pos in holdings.items() if t in close_df.columns)
-    state['cash'] = cash
-    state['holdings'] = holdings
-    
+    tot_ret_pct = ((total_val - initial_cap) / initial_cap) * 100
+
     n50_p = close_df[n50_sym].iloc[-1] if n50_sym in close_df.columns else np.nan
     n500_p = close_df[n500_sym].iloc[-1] if n500_sym in close_df.columns else np.nan
+    
+    n50_prev = close_df[n50_sym].iloc[-2] if n50_sym in close_df.columns and len(close_df) > 1 else n50_p
+    n500_prev = close_df[n500_sym].iloc[-2] if n500_sym in close_df.columns and len(close_df) > 1 else n500_p
+
+    n50_daily_pct = ((n50_p - n50_prev) / n50_prev) * 100 if n50_prev > 0 else 0.0
+    n500_daily_pct = ((n500_p - n500_prev) / n500_prev) * 100 if n500_prev > 0 else 0.0
+
+    # UPDATE JSON & LOGS
+    state['cash'] = cash
+    state['holdings'] = holdings
 
     with open("portfolio.json", "w") as f:
         json.dump(state, f, indent=2)
@@ -233,8 +250,39 @@ def run_live_scan():
     if trade_logs:
         pd.DataFrame(trade_logs).to_csv("trade_log.csv", mode='a', header=not os.path.exists("trade_log.csv"), index=False)
 
-    telegram_msgs.append(f"📊 *PORTFOLIO SUMMARY*\n• Equity: ₹{total_val:,.2f}\n• Cash: ₹{cash:,.2f}\n• Positions: {len(holdings)}/{TARGET_POSITIONS}")
-    send_telegram("\n".join(telegram_msgs))
+    # CONSTRUCT TELEGRAM MESSAGE
+    msg_lines = []
+    
+    if len(action_items) == 0:
+        msg_lines.append(f"🟢 *STATUS: NO ACTION REQUIRED TODAY*")
+        msg_lines.append(f"📅 *Date*: `{today_str}`\n")
+    else:
+        msg_lines.append(f"🚨 *STATUS: ACTION REQUIRED ({len(action_items)} ORDERS)*")
+        msg_lines.append(f"📅 *Date*: `{today_str}`\n")
+        msg_lines.append("*REQUIRED BROKER EXECUTIONS:*")
+        for item in action_items:
+            msg_lines.append(item)
+        msg_lines.append("")
+
+    msg_lines.append("*PORTFOLIO PERFORMANCE:*")
+    msg_lines.append(f"• Total Equity: ₹{total_val:,.2f} ({tot_ret_pct:+.2f}% Overall)")
+    msg_lines.append(f"• Cash Balance: ₹{cash:,.2f}")
+    msg_lines.append(f"• Holdings: {len(holdings)}/{TARGET_POSITIONS} Slots\n")
+
+    msg_lines.append("*TODAY'S BENCHMARK MOVEMENT:*")
+    msg_lines.append(f"• Nifty 50  : {n50_daily_pct:+.2f}%")
+    msg_lines.append(f"• Nifty 500 : {n500_daily_pct:+.2f}%\n")
+
+    if stop_risk_list:
+        stop_risk_list.sort(key=lambda x: x['dist'])
+        msg_lines.append("*CLOSEST TO ATR TRAILING STOP:*")
+        for item in stop_risk_list[:3]:  # Top 3 closest
+            msg_lines.append(f"• `{item['ticker']}`: +{item['dist']:.2f}% above stop (₹{item['stop']:.2f})")
+        msg_lines.append("")
+
+    msg_lines.append(f"🔗 [View Live Streamlit Dashboard]({STREAMLIT_URL})")
+
+    send_telegram("\n".join(msg_lines))
 
 if __name__ == "__main__":
     run_live_scan()
