@@ -19,7 +19,7 @@ SLIPPAGE_SELL = 0.9985         # 0.15% Sell Friction
 
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
-STREAMLIT_URL = "https://quantmomentum52w-cabwqvmv4e7tyi9x7upauk.streamlit.app"  # Your Streamlit App URL
+STREAMLIT_URL = "https://quantmomentum52w-cabwqvmv4e7tyi9x7upauk.streamlit.app"
 
 def send_telegram(msg):
     if TELEGRAM_TOKEN and TELEGRAM_CHAT_ID:
@@ -110,7 +110,6 @@ def run_live_scan():
         pos['peak_price'] = max(pos['peak_price'], cur_p)
         stop_price = pos['peak_price'] - (ATR_MULTIPLIER * s_atr) if not pd.isna(s_atr) else pos['peak_price'] * 0.85
         
-        # Calculate distance to stop loss (%)
         dist_to_stop = ((cur_p - stop_price) / cur_p) * 100
         stop_risk_list.append({'ticker': ticker.replace('.NS',''), 'dist': dist_to_stop, 'stop': stop_price, 'price': cur_p})
 
@@ -227,7 +226,7 @@ def run_live_scan():
     n50_daily_pct = ((n50_p - n50_prev) / n50_prev) * 100 if n50_prev > 0 else 0.0
     n500_daily_pct = ((n500_p - n500_prev) / n500_prev) * 100 if n500_prev > 0 else 0.0
 
-    # UPDATE JSON & LOGS
+    # SAVE STATE & HOLDINGS (ALWAYS OVERWRITES FULL FILE)
     state['cash'] = cash
     state['holdings'] = holdings
 
@@ -237,18 +236,35 @@ def run_live_scan():
     holdings_rows = [{'Ticker': k.replace('.NS',''), 'Shares': v['shares'], 'Entry Price': round(v['entry_price'],2), 'Peak Price': round(v['peak_price'],2), 'Entry Date': v['entry_date']} for k,v in holdings.items()]
     pd.DataFrame(holdings_rows).to_csv("current_holdings.csv", index=False)
 
-    perf_df = pd.DataFrame([{
+    # DUPLICATE-SAFE PERFORMANCE HISTORY LOGGING
+    new_perf_row = {
         'Date': today_str, 
         'Portfolio_Value': round(total_val, 2), 
         'Cash': round(cash, 2), 
         'Positions': len(holdings),
         'Nifty50_Price': round(n50_p, 2) if not pd.isna(n50_p) else np.nan,
         'Nifty500_Price': round(n500_p, 2) if not pd.isna(n500_p) else np.nan
-    }])
-    perf_df.to_csv("performance_history.csv", mode='a', header=not os.path.exists("performance_history.csv"), index=False)
+    }
 
+    if os.path.exists("performance_history.csv"):
+        existing_perf = pd.read_csv("performance_history.csv")
+        # Remove existing record for today if present to prevent duplicate date rows
+        existing_perf = existing_perf[existing_perf['Date'] != today_str]
+        updated_perf = pd.concat([existing_perf, pd.DataFrame([new_perf_row])], ignore_index=True)
+    else:
+        updated_perf = pd.DataFrame([new_perf_row])
+
+    updated_perf.to_csv("performance_history.csv", index=False)
+
+    # DUPLICATE-SAFE TRADE LOGGING
     if trade_logs:
-        pd.DataFrame(trade_logs).to_csv("trade_log.csv", mode='a', header=not os.path.exists("trade_log.csv"), index=False)
+        new_trades_df = pd.DataFrame(trade_logs)
+        if os.path.exists("trade_log.csv"):
+            existing_trades = pd.read_csv("trade_log.csv")
+            updated_trades = pd.concat([existing_trades, new_trades_df], ignore_index=True).drop_duplicates()
+            updated_trades.to_csv("trade_log.csv", index=False)
+        else:
+            new_trades_df.to_csv("trade_log.csv", index=False)
 
     # CONSTRUCT TELEGRAM MESSAGE
     msg_lines = []
@@ -276,7 +292,7 @@ def run_live_scan():
     if stop_risk_list:
         stop_risk_list.sort(key=lambda x: x['dist'])
         msg_lines.append("*CLOSEST TO ATR TRAILING STOP:*")
-        for item in stop_risk_list[:3]:  # Top 3 closest
+        for item in stop_risk_list[:3]:
             msg_lines.append(f"• `{item['ticker']}`: +{item['dist']:.2f}% above stop (₹{item['stop']:.2f})")
         msg_lines.append("")
 
