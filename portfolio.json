@@ -11,7 +11,7 @@
     "ATHERENERG.NS": {
       "shares": 30,
       "entry_price": 1618.7244989013673,
-      "peak_price": 1616.300048828125,
+      "peak_price": 1717.699951171875,
       "entry_date": "2026-08-30"
     },
     "LAURUSLABS.NS": {
@@ -23,7 +23,7 @@
     "WELCORP.NS": {
       "shares": 21,
       "entry_price": 2377.3607489013675,
-      "peak_price": 2373.800048828125,
+      "peak_price": 2391.0,
       "entry_date": "2026-08-30"
     },
     "RADICO.NS": {
@@ -35,19 +35,19 @@
     "OFSS.NS": {
       "shares": 4,
       "entry_price": 12208.285,
-      "peak_price": 12190.0,
+      "peak_price": 12540.0,
       "entry_date": "2026-08-30"
     },
     "BHEL.NS": {
       "shares": 115,
       "entry_price": 434.6009372253418,
-      "peak_price": 433.95001220703125,
+      "peak_price": 442.6499938964844,
       "entry_date": "2026-08-30"
     },
     "RRKABEL.NS": {
       "shares": 17,
       "entry_price": 2834.3452478027343,
-      "peak_price": 2830.10009765625,
+      "peak_price": 2928.39990234375,
       "entry_date": "2026-08-30"
     },
     "NEULANDLAB.NS": {
@@ -59,7 +59,7 @@
     "ANANDRATHI.NS": {
       "shares": 22,
       "entry_price": 2186.1742521972656,
-      "peak_price": 2182.89990234375,
+      "peak_price": 2204.199951171875,
       "entry_date": "2026-08-30"
     }
   }
