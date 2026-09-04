@@ -1,5 +1,5 @@
 {
-  "cash": 15412.093182067896,
+  "cash": 57069.21528973392,
   "initial_capital": 500000.0,
   "holdings": {
     "HFCL.NS": {
@@ -44,12 +44,6 @@
       "peak_price": 442.6499938964844,
       "entry_date": "2026-08-30"
     },
-    "RRKABEL.NS": {
-      "shares": 17,
-      "entry_price": 2834.3452478027343,
-      "peak_price": 2928.39990234375,
-      "entry_date": "2026-08-30"
-    },
     "NEULANDLAB.NS": {
       "shares": 2,
       "entry_price": 23239.807500000003,
@@ -59,7 +53,7 @@
     "ANANDRATHI.NS": {
       "shares": 22,
       "entry_price": 2186.1742521972656,
-      "peak_price": 2205.300048828125,
+      "peak_price": 2215.89990234375,
       "entry_date": "2026-08-30"
     }
   }
