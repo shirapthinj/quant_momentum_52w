@@ -214,7 +214,18 @@ def run_live_scan():
                         action_items.append(f"🟢 *BUY ORDER*: {stk.replace('.NS', '')}\n   • Buy: {shares} shares @ ₹{buy_price:.2f}")
 
     # CALCULATE METRICS & BENCHMARKS
-    total_val = cash + sum(pos['shares'] * close_df[t].iloc[-1] for t, pos in holdings.items() if t in close_df.columns)
+    holdings_val = sum(
+        pos['shares'] * close_df[t].iloc[-1] 
+        for t, pos in holdings.items() 
+        if t in close_df.columns and not pd.isna(close_df[t].iloc[-1])
+    )
+    
+    # FAIL-SAFE GUARD: Prevent updating logs if market data download fails
+    if len(holdings) > 0 and holdings_val == 0:
+        send_telegram("⚠️ *SYSTEM WARNING*: Data download issue detected on yfinance. Run aborted to prevent log corruption.")
+        raise ValueError("CRITICAL DATA ERROR: Market data returned 0 for active holdings. Aborting run.")
+
+    total_val = cash + holdings_val
     tot_ret_pct = ((total_val - initial_cap) / initial_cap) * 100
 
     n50_p = close_df[n50_sym].iloc[-1] if n50_sym in close_df.columns else np.nan
@@ -226,7 +237,7 @@ def run_live_scan():
     n50_daily_pct = ((n50_p - n50_prev) / n50_prev) * 100 if n50_prev > 0 else 0.0
     n500_daily_pct = ((n500_p - n500_prev) / n500_prev) * 100 if n500_prev > 0 else 0.0
 
-    # SAVE STATE & HOLDINGS (ALWAYS OVERWRITES FULL FILE)
+    # SAVE STATE & HOLDINGS
     state['cash'] = cash
     state['holdings'] = holdings
 
@@ -236,7 +247,7 @@ def run_live_scan():
     holdings_rows = [{'Ticker': k.replace('.NS',''), 'Shares': v['shares'], 'Entry Price': round(v['entry_price'],2), 'Peak Price': round(v['peak_price'],2), 'Entry Date': v['entry_date']} for k,v in holdings.items()]
     pd.DataFrame(holdings_rows).to_csv("current_holdings.csv", index=False)
 
-    # DUPLICATE-SAFE PERFORMANCE HISTORY LOGGING
+    # DUPLICATE-SAFE PERFORMANCE LOGGING
     new_perf_row = {
         'Date': today_str, 
         'Portfolio_Value': round(total_val, 2), 
@@ -248,7 +259,6 @@ def run_live_scan():
 
     if os.path.exists("performance_history.csv"):
         existing_perf = pd.read_csv("performance_history.csv")
-        # Remove existing record for today if present to prevent duplicate date rows
         existing_perf = existing_perf[existing_perf['Date'] != today_str]
         updated_perf = pd.concat([existing_perf, pd.DataFrame([new_perf_row])], ignore_index=True)
     else:
