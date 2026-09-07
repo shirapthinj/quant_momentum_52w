@@ -1,5 +1,5 @@
 {
-  "cash": 57069.21528973392,
+  "cash": 9588.900071594268,
   "initial_capital": 500000.0,
   "holdings": {
     "HFCL.NS": {
@@ -53,8 +53,14 @@
     "ANANDRATHI.NS": {
       "shares": 22,
       "entry_price": 2186.1742521972656,
-      "peak_price": 2215.89990234375,
+      "peak_price": 2224.0,
       "entry_date": "2026-08-30"
+    },
+    "SYRMA.NS": {
+      "shares": 29,
+      "entry_price": 1637.2522489013672,
+      "peak_price": 1634.800048828125,
+      "entry_date": "2026-09-07"
     }
   }
 }
