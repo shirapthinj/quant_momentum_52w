@@ -17,7 +17,7 @@
     "LAURUSLABS.NS": {
       "shares": 25,
       "entry_price": 1941.40775,
-      "peak_price": 1938.5,
+      "peak_price": 1946.9000244140625,
       "entry_date": "2026-08-30"
     },
     "WELCORP.NS": {
@@ -47,19 +47,19 @@
     "NEULANDLAB.NS": {
       "shares": 2,
       "entry_price": 23239.807500000003,
-      "peak_price": 23205.0,
+      "peak_price": 23995.0,
       "entry_date": "2026-08-30"
     },
     "ANANDRATHI.NS": {
       "shares": 22,
       "entry_price": 2186.1742521972656,
-      "peak_price": 2224.0,
+      "peak_price": 2229.5,
       "entry_date": "2026-08-30"
     },
     "SYRMA.NS": {
       "shares": 29,
       "entry_price": 1637.2522489013672,
-      "peak_price": 1634.800048828125,
+      "peak_price": 1639.199951171875,
       "entry_date": "2026-09-07"
     }
   }
