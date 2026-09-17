@@ -1,13 +1,7 @@
 {
-  "cash": 9588.900071594268,
+  "cash": 50997.792818252594,
   "initial_capital": 500000.0,
   "holdings": {
-    "HFCL.NS": {
-      "shares": 198,
-      "entry_price": 251.8472062225342,
-      "peak_price": 251.47000122070312,
-      "entry_date": "2026-08-30"
-    },
     "ATHERENERG.NS": {
       "shares": 30,
       "entry_price": 1618.7244989013673,
