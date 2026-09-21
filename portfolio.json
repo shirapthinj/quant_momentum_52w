@@ -1,5 +1,5 @@
 {
-  "cash": 50997.792818252594,
+  "cash": 9254.535818252589,
   "initial_capital": 500000.0,
   "holdings": {
     "ATHERENERG.NS": {
@@ -11,7 +11,7 @@
     "LAURUSLABS.NS": {
       "shares": 25,
       "entry_price": 1941.40775,
-      "peak_price": 1969.0,
+      "peak_price": 2017.5,
       "entry_date": "2026-08-30"
     },
     "WELCORP.NS": {
@@ -24,12 +24,6 @@
       "shares": 10,
       "entry_price": 4612.909000000001,
       "peak_price": 4606.0,
-      "entry_date": "2026-08-30"
-    },
-    "OFSS.NS": {
-      "shares": 4,
-      "entry_price": 12208.285,
-      "peak_price": 12540.0,
       "entry_date": "2026-08-30"
     },
     "BHEL.NS": {
@@ -55,6 +49,18 @@
       "entry_price": 1637.2522489013672,
       "peak_price": 1728.9000244140625,
       "entry_date": "2026-09-07"
+    },
+    "AEGISLOG.NS": {
+      "shares": 32,
+      "entry_price": 1488.229,
+      "peak_price": 1486.0,
+      "entry_date": "2026-09-21"
+    },
+    "DIVISLAB.NS": {
+      "shares": 4,
+      "entry_price": 9424.61575,
+      "peak_price": 9410.5,
+      "entry_date": "2026-09-21"
     }
   }
 }
