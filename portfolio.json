@@ -1,23 +1,17 @@
 {
-  "cash": 9254.535818252589,
+  "cash": 54169.06354957583,
   "initial_capital": 500000.0,
   "holdings": {
-    "ATHERENERG.NS": {
-      "shares": 30,
-      "entry_price": 1618.7244989013673,
-      "peak_price": 1725.5999755859375,
-      "entry_date": "2026-08-30"
-    },
     "LAURUSLABS.NS": {
       "shares": 25,
       "entry_price": 1941.40775,
-      "peak_price": 2017.5,
+      "peak_price": 2034.0,
       "entry_date": "2026-08-30"
     },
     "WELCORP.NS": {
       "shares": 21,
       "entry_price": 2377.3607489013675,
-      "peak_price": 2776.89990234375,
+      "peak_price": 2796.800048828125,
       "entry_date": "2026-08-30"
     },
     "RADICO.NS": {
@@ -59,7 +53,7 @@
     "DIVISLAB.NS": {
       "shares": 4,
       "entry_price": 9424.61575,
-      "peak_price": 9410.5,
+      "peak_price": 9624.0,
       "entry_date": "2026-09-21"
     }
   }
