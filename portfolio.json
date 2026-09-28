@@ -1,5 +1,5 @@
 {
-  "cash": 54169.06354957583,
+  "cash": 3577.4023848495635,
   "initial_capital": 500000.0,
   "holdings": {
     "LAURUSLABS.NS": {
@@ -26,12 +26,6 @@
       "peak_price": 442.6499938964844,
       "entry_date": "2026-08-30"
     },
-    "NEULANDLAB.NS": {
-      "shares": 2,
-      "entry_price": 23239.807500000003,
-      "peak_price": 23995.0,
-      "entry_date": "2026-08-30"
-    },
     "ANANDRATHI.NS": {
       "shares": 22,
       "entry_price": 2186.1742521972656,
@@ -41,20 +35,32 @@
     "SYRMA.NS": {
       "shares": 29,
       "entry_price": 1637.2522489013672,
-      "peak_price": 1741.800048828125,
+      "peak_price": 1746.4000244140625,
       "entry_date": "2026-09-07"
-    },
-    "AEGISLOG.NS": {
-      "shares": 32,
-      "entry_price": 1488.229,
-      "peak_price": 1486.0,
-      "entry_date": "2026-09-21"
     },
     "DIVISLAB.NS": {
       "shares": 4,
       "entry_price": 9424.61575,
       "peak_price": 9624.0,
       "entry_date": "2026-09-21"
+    },
+    "WELSPUNLIV.NS": {
+      "shares": 207,
+      "entry_price": 228.29192194366456,
+      "peak_price": 227.9499969482422,
+      "entry_date": "2026-09-28"
+    },
+    "SONACOMS.NS": {
+      "shares": 58,
+      "entry_price": 809.1118744506837,
+      "peak_price": 807.9000244140625,
+      "entry_date": "2026-09-28"
+    },
+    "CPPLUS.NS": {
+      "shares": 11,
+      "entry_price": 3728.9850021972657,
+      "peak_price": 3723.39990234375,
+      "entry_date": "2026-09-28"
     }
   }
 }
