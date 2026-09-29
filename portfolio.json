@@ -11,7 +11,7 @@
     "WELCORP.NS": {
       "shares": 21,
       "entry_price": 2377.3607489013675,
-      "peak_price": 2832.39990234375,
+      "peak_price": 2842.0,
       "entry_date": "2026-08-30"
     },
     "RADICO.NS": {
@@ -53,13 +53,13 @@
     "SONACOMS.NS": {
       "shares": 58,
       "entry_price": 809.1118744506837,
-      "peak_price": 807.9000244140625,
+      "peak_price": 815.6500244140625,
       "entry_date": "2026-09-28"
     },
     "CPPLUS.NS": {
       "shares": 11,
       "entry_price": 3728.9850021972657,
-      "peak_price": 3723.39990234375,
+      "peak_price": 3817.60009765625,
       "entry_date": "2026-09-28"
     }
   }
