@@ -35,7 +35,7 @@
     "SYRMA.NS": {
       "shares": 29,
       "entry_price": 1637.2522489013672,
-      "peak_price": 1746.4000244140625,
+      "peak_price": 1782.9000244140625,
       "entry_date": "2026-09-07"
     },
     "DIVISLAB.NS": {
@@ -53,13 +53,13 @@
     "SONACOMS.NS": {
       "shares": 58,
       "entry_price": 809.1118744506837,
-      "peak_price": 815.6500244140625,
+      "peak_price": 830.0,
       "entry_date": "2026-09-28"
     },
     "CPPLUS.NS": {
       "shares": 11,
       "entry_price": 3728.9850021972657,
-      "peak_price": 3817.60009765625,
+      "peak_price": 3846.5,
       "entry_date": "2026-09-28"
     }
   }
