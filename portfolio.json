@@ -1,5 +1,5 @@
 {
-  "cash": 3577.4023848495635,
+  "cash": 136.1341079330523,
   "initial_capital": 500000.0,
   "holdings": {
     "LAURUSLABS.NS": {
@@ -14,22 +14,10 @@
       "peak_price": 2842.0,
       "entry_date": "2026-08-30"
     },
-    "RADICO.NS": {
-      "shares": 10,
-      "entry_price": 4612.909000000001,
-      "peak_price": 4606.0,
-      "entry_date": "2026-08-30"
-    },
     "BHEL.NS": {
       "shares": 115,
       "entry_price": 434.6009372253418,
       "peak_price": 442.6499938964844,
-      "entry_date": "2026-08-30"
-    },
-    "ANANDRATHI.NS": {
-      "shares": 22,
-      "entry_price": 2186.1742521972656,
-      "peak_price": 2229.5,
       "entry_date": "2026-08-30"
     },
     "SYRMA.NS": {
@@ -61,6 +49,18 @@
       "entry_price": 3728.9850021972657,
       "peak_price": 3846.5,
       "entry_date": "2026-09-28"
+    },
+    "STLTECH.NS": {
+      "shares": 49,
+      "entry_price": 956.7830005493165,
+      "peak_price": 955.3499755859375,
+      "entry_date": "2026-10-05"
+    },
+    "CUPID.NS": {
+      "shares": 145,
+      "entry_price": 312.96875,
+      "peak_price": 312.5,
+      "entry_date": "2026-10-05"
     }
   }
 }
