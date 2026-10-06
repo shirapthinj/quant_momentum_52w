@@ -5,7 +5,7 @@
     "LAURUSLABS.NS": {
       "shares": 25,
       "entry_price": 1941.40775,
-      "peak_price": 2034.0,
+      "peak_price": 2050.0,
       "entry_date": "2026-08-30"
     },
     "WELCORP.NS": {
@@ -17,7 +17,7 @@
     "BHEL.NS": {
       "shares": 115,
       "entry_price": 434.6009372253418,
-      "peak_price": 442.6499938964844,
+      "peak_price": 452.0,
       "entry_date": "2026-08-30"
     },
     "SYRMA.NS": {
@@ -47,19 +47,19 @@
     "CPPLUS.NS": {
       "shares": 11,
       "entry_price": 3728.9850021972657,
-      "peak_price": 3846.5,
+      "peak_price": 3976.0,
       "entry_date": "2026-09-28"
     },
     "STLTECH.NS": {
       "shares": 49,
       "entry_price": 956.7830005493165,
-      "peak_price": 955.3499755859375,
+      "peak_price": 1016.7000122070312,
       "entry_date": "2026-10-05"
     },
     "CUPID.NS": {
       "shares": 145,
       "entry_price": 312.96875,
-      "peak_price": 312.5,
+      "peak_price": 324.20001220703125,
       "entry_date": "2026-10-05"
     }
   }
