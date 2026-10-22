@@ -1,5 +1,5 @@
 {
-  "cash": 259.81951686859975,
+  "cash": 85247.29489652254,
   "initial_capital": 500000.0,
   "holdings": {
     "LAURUSLABS.NS": {
@@ -12,12 +12,6 @@
       "shares": 21,
       "entry_price": 2377.3607489013675,
       "peak_price": 2842.0,
-      "entry_date": "2026-08-30"
-    },
-    "BHEL.NS": {
-      "shares": 115,
-      "entry_price": 434.6009372253418,
-      "peak_price": 464.0,
       "entry_date": "2026-08-30"
     },
     "DIVISLAB.NS": {
@@ -43,12 +37,6 @@
       "entry_price": 3728.9850021972657,
       "peak_price": 4440.2998046875,
       "entry_date": "2026-09-28"
-    },
-    "STLTECH.NS": {
-      "shares": 49,
-      "entry_price": 956.7830005493165,
-      "peak_price": 1016.7999877929688,
-      "entry_date": "2026-10-05"
     },
     "CUPID.NS": {
       "shares": 145,
