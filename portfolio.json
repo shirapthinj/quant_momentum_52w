@@ -1,5 +1,5 @@
 {
-  "cash": 85247.29489652254,
+  "cash": 7553.818757125831,
   "initial_capital": 500000.0,
   "holdings": {
     "LAURUSLABS.NS": {
@@ -8,23 +8,11 @@
       "peak_price": 2069.0,
       "entry_date": "2026-08-30"
     },
-    "WELCORP.NS": {
-      "shares": 21,
-      "entry_price": 2377.3607489013675,
-      "peak_price": 2842.0,
-      "entry_date": "2026-08-30"
-    },
     "DIVISLAB.NS": {
       "shares": 4,
       "entry_price": 9424.61575,
       "peak_price": 9624.0,
       "entry_date": "2026-09-21"
-    },
-    "WELSPUNLIV.NS": {
-      "shares": 207,
-      "entry_price": 228.29192194366456,
-      "peak_price": 239.1699981689453,
-      "entry_date": "2026-09-28"
     },
     "SONACOMS.NS": {
       "shares": 58,
@@ -49,6 +37,30 @@
       "entry_price": 269.21321255493166,
       "peak_price": 268.80999755859375,
       "entry_date": "2026-10-19"
+    },
+    "STLTECH.NS": {
+      "shares": 50,
+      "entry_price": 868.8513127746583,
+      "peak_price": 867.5499877929688,
+      "entry_date": "2026-10-26"
+    },
+    "SANSERA.NS": {
+      "shares": 10,
+      "entry_price": 4153.921745605469,
+      "peak_price": 4147.7001953125,
+      "entry_date": "2026-10-26"
+    },
+    "ANANDRATHI.NS": {
+      "shares": 19,
+      "entry_price": 2233.3450000000003,
+      "peak_price": 2230.0,
+      "entry_date": "2026-10-26"
+    },
+    "ATHERENERG.NS": {
+      "shares": 27,
+      "entry_price": 1577.3625000000002,
+      "peak_price": 1575.0,
+      "entry_date": "2026-10-26"
     }
   }
 }
