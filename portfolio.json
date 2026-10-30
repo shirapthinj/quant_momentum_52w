@@ -5,19 +5,19 @@
     "LAURUSLABS.NS": {
       "shares": 25,
       "entry_price": 1941.40775,
-      "peak_price": 2244.0,
+      "peak_price": 2405.5,
       "entry_date": "2026-08-30"
     },
     "DIVISLAB.NS": {
       "shares": 4,
       "entry_price": 9424.61575,
-      "peak_price": 9664.0,
+      "peak_price": 9780.0,
       "entry_date": "2026-09-21"
     },
     "SONACOMS.NS": {
       "shares": 58,
       "entry_price": 809.1118744506837,
-      "peak_price": 879.4500122070312,
+      "peak_price": 890.5,
       "entry_date": "2026-09-28"
     },
     "CPPLUS.NS": {
@@ -59,7 +59,7 @@
     "ATHERENERG.NS": {
       "shares": 27,
       "entry_price": 1577.3625000000002,
-      "peak_price": 1674.0,
+      "peak_price": 1756.0,
       "entry_date": "2026-10-26"
     }
   }
