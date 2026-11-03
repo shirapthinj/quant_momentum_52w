@@ -1,5 +1,5 @@
 {
-  "cash": 7553.818757125831,
+  "cash": 43571.51156295774,
   "initial_capital": 500000.0,
   "holdings": {
     "LAURUSLABS.NS": {
@@ -11,13 +11,13 @@
     "DIVISLAB.NS": {
       "shares": 4,
       "entry_price": 9424.61575,
-      "peak_price": 9780.0,
+      "peak_price": 10064.0,
       "entry_date": "2026-09-21"
     },
     "SONACOMS.NS": {
       "shares": 58,
       "entry_price": 809.1118744506837,
-      "peak_price": 890.5,
+      "peak_price": 900.0,
       "entry_date": "2026-09-28"
     },
     "CPPLUS.NS": {
@@ -31,12 +31,6 @@
       "entry_price": 312.96875,
       "peak_price": 366.1000061035156,
       "entry_date": "2026-10-05"
-    },
-    "HFCL.NS": {
-      "shares": 166,
-      "entry_price": 269.21321255493166,
-      "peak_price": 268.80999755859375,
-      "entry_date": "2026-10-19"
     },
     "STLTECH.NS": {
       "shares": 50,
@@ -53,13 +47,13 @@
     "ANANDRATHI.NS": {
       "shares": 19,
       "entry_price": 2233.3450000000003,
-      "peak_price": 2270.0,
+      "peak_price": 2288.0,
       "entry_date": "2026-10-26"
     },
     "ATHERENERG.NS": {
       "shares": 27,
       "entry_price": 1577.3625000000002,
-      "peak_price": 1756.0,
+      "peak_price": 1795.0,
       "entry_date": "2026-10-26"
     }
   }
