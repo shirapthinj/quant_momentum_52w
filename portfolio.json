@@ -17,7 +17,7 @@
     "SONACOMS.NS": {
       "shares": 58,
       "entry_price": 809.1118744506837,
-      "peak_price": 925.0,
+      "peak_price": 926.0,
       "entry_date": "2026-09-28"
     },
     "CPPLUS.NS": {
@@ -29,13 +29,13 @@
     "CUPID.NS": {
       "shares": 145,
       "entry_price": 312.96875,
-      "peak_price": 366.1000061035156,
+      "peak_price": 384.79998779296875,
       "entry_date": "2026-10-05"
     },
     "SANSERA.NS": {
       "shares": 10,
       "entry_price": 4153.921745605469,
-      "peak_price": 4655.10009765625,
+      "peak_price": 4701.7998046875,
       "entry_date": "2026-10-26"
     },
     "ANANDRATHI.NS": {
@@ -47,7 +47,7 @@
     "ATHERENERG.NS": {
       "shares": 27,
       "entry_price": 1577.3625000000002,
-      "peak_price": 1868.199951171875,
+      "peak_price": 1923.0,
       "entry_date": "2026-10-26"
     },
     "RUBICON.NS": {
@@ -59,7 +59,7 @@
     "GLAND.NS": {
       "shares": 9,
       "entry_price": 3307.3535021972657,
-      "peak_price": 3302.39990234375,
+      "peak_price": 3308.699951171875,
       "entry_date": "2026-11-09"
     }
   }
