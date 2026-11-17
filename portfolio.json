@@ -35,13 +35,13 @@
     "SANSERA.NS": {
       "shares": 10,
       "entry_price": 4153.921745605469,
-      "peak_price": 4708.39990234375,
+      "peak_price": 4763.60009765625,
       "entry_date": "2026-10-26"
     },
     "ANANDRATHI.NS": {
       "shares": 19,
       "entry_price": 2233.3450000000003,
-      "peak_price": 2385.0,
+      "peak_price": 2387.300048828125,
       "entry_date": "2026-10-26"
     },
     "ATHERENERG.NS": {
@@ -59,7 +59,7 @@
     "GLAND.NS": {
       "shares": 9,
       "entry_price": 3307.3535021972657,
-      "peak_price": 3334.10009765625,
+      "peak_price": 3385.89990234375,
       "entry_date": "2026-11-09"
     }
   }
