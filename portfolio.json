@@ -1,5 +1,5 @@
 {
-  "cash": 1169.2143740539395,
+  "cash": 314.92727291868505,
   "initial_capital": 500000.0,
   "holdings": {
     "LAURUSLABS.NS": {
@@ -35,7 +35,7 @@
     "SANSERA.NS": {
       "shares": 10,
       "entry_price": 4153.921745605469,
-      "peak_price": 4763.60009765625,
+      "peak_price": 4798.39990234375,
       "entry_date": "2026-10-26"
     },
     "ANANDRATHI.NS": {
@@ -50,17 +50,17 @@
       "peak_price": 1945.0,
       "entry_date": "2026-10-26"
     },
-    "RUBICON.NS": {
-      "shares": 26,
-      "entry_price": 1774.3575010986328,
-      "peak_price": 1771.699951171875,
-      "entry_date": "2026-11-09"
-    },
     "GLAND.NS": {
       "shares": 9,
       "entry_price": 3307.3535021972657,
       "peak_price": 3385.89990234375,
       "entry_date": "2026-11-09"
+    },
+    "LENSKART.NS": {
+      "shares": 61,
+      "entry_price": 745.4665005493165,
+      "peak_price": 744.3499755859375,
+      "entry_date": "2026-11-23"
     }
   }
 }
